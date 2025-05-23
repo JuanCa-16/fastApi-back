@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from App.dataBase.dataBase import engine, Base
 from App.routers.tareas import router as tareas_router  # Importa el router de tareas
 import uvicorn
+import os
 # Crear tablas en la base de datos
 def create_tables():
     Base.metadata.create_all(bind=engine)
@@ -19,6 +20,7 @@ def read_root():
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))  # Toma puerto de entorno o usa 8000 por defecto
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
 
 # uvicorn main:app --reload
